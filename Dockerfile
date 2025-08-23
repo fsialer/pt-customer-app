@@ -31,6 +31,13 @@ RUN adduser -D -u 10001 appuser
 # ✅ Cambiar al usuario
 USER appuser
 
+# Agregar metadatos como labels
+LABEL maintainer="Fernando Sialer" \
+      org.opencontainers.image.title="customer-app" \
+      org.opencontainers.image.description="Aplicación web desarrollada en React + TypeScript usando Vite como bundler, autenticación con Keycloak y estilos con TailwindCSS. Permite gestionar clientes (crear, listar, editar, eliminar) y visualizar métricas de edad." \
+      org.opencontainers.image.authors="Fernando Sialer" \
+      org.opencontainers.image.source="https://github.com/fsialer/pt-customer-app" 
+
 # Expone el puerto 80
 EXPOSE 80
 

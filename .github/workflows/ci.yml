@@ -112,7 +112,7 @@ jobs:
                -d '{
                     "embeds": [{
                       "title": "'"$WORKFLOW_NAME"'",
-                      "description": "'"$STATUS_MSG"' en la rama **'"$BRANCH_NAME"'** por **'"$COMMIT_AUTHOR"'**.\n'"$DOCKER_SUMMARY"' del proyecto: **'"$PROJECT"'**",
+                      "description": "'"$STATUS_MSG"' en la rama **'"$BRANCH_NAME"'** por **'"$COMMIT_AUTHOR"'**.\n'"$DOCKER_SUMMARY"'\n Proyecto: **'"$PROJECT"'**",
                       "color": '"$COLOR"',
                       "timestamp": "'"$(date --iso-8601=seconds)"'"
                     }]

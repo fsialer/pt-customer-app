@@ -43,7 +43,7 @@ jobs:
       - name: Define Docker image tag
         id: set-tag
         run: |
-          if [ "${{ github.ref_name }}" == "main"] || [ "${{ github.base_ref }}" == "main"]; then
+          if [ "${{ github.ref_name }}" == "main" ] || [ "${{ github.base_ref }}" == "main" ]; then
             echo "IMAGE_TAG=prod-${COMMIT_HASH}" >> $GITHUB_ENV
             echo "IMAGE_TAG=prod-${COMMIT_HASH}" >> $GITHUB_OUTPUT
           else

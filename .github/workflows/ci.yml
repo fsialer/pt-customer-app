@@ -18,24 +18,24 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup java
-        uses: actions/setup-java@v4
+      - name: Use Node.js
+        uses: actions/setup-node@v4
         with:
-          java-version: 21
-          distribution: 'corretto'
+          node-version: 20
 
-      - name: Cache Gradle dependencies
+      - name: Cache node_modules
         uses: actions/cache@v3
         with:
-          path: ~/.gradle/caches
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
-            ${{ runner.os }}-gradle-
-      - name: Grant execute permission to Gradle
-        run: chmod +x gradlew
+            ${{ runner.os }}-node-
 
-      - name: Build Spring Boot application
-        run: ./gradlew clean build
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build app
+        run: npm run build
 
       - name: Get short commit hash
         id: vars

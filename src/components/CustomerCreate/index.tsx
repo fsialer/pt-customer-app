@@ -2,17 +2,12 @@ import { useForm } from "react-hook-form";
 import CustomerForm from "./components/CustomerForm";
 import useCustomerSave from "../../hooks/useCustomerSave";
 import { useNavigate, useParams } from "react-router";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import useCustomerData from "../../hooks/useCustomerData";
 import NavBar from "../NavBar/Index";
+import { useNotification } from "../../utils/NotificationContext";
+import type { ICustomer } from "../../models/customer.interface";
 
-interface Customer {
-    id?: string;
-    name: string;
-    lastName: string;
-    age: number;
-    birthDate: string;
-}
 
 type RouteParams = {
     id?: string; // opcional porque puede no estar
@@ -20,10 +15,12 @@ type RouteParams = {
 
 const CustomerCreate = () => {
 
-    const { id } = useParams<RouteParams>(); // <-- obtiene el id si existe
+    const { id: idParam } = useParams<RouteParams>(); // <-- obtiene el id si existe
+    const id = idParam ?? null;
     const { customer, isLoading, error } = useCustomerData({ id });
     const { register, handleSubmit, reset, formState: { errors, isValid, isSubmitting } } = useForm({ mode: "onChange" })
     const { saveCustomer, saving, errorSave } = useCustomerSave();
+    const { showNotification } = useNotification();
 
 
     const navigate = useNavigate();
@@ -44,9 +41,13 @@ const CustomerCreate = () => {
         navigate("/customer")
     }
 
-    const handleFormSubmit = async (data: Customer) => {
+    const handleFormSubmit = async (data: ICustomer) => {
         const resp = await saveCustomer(data)
         if (!resp?.message) {
+            showNotification({
+                message: id ? "Customer updated correctly" : "Customer saved correctly.",
+                type: "success",
+            });
             navigate("/customer")
         }
     }

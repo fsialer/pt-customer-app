@@ -1,6 +1,8 @@
 import { useState } from "react";
-import { NavLink, useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 import Confirm from "../../../Confirm";
+import Skeleton from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
 
 interface CustomerProps {
     id: string;
@@ -8,10 +10,11 @@ interface CustomerProps {
     lastName: string;
     age: number;
     birthDate: string;
-    onLoadCustomer: any
+    onLoadCustomer: any;
+    handleDownloadFile: any;
 }
 
-const CustomerCard = ({ id, name, lastName, age, birthDate, onLoadCustomer }: CustomerProps) => {
+const CustomerCard = ({ id, name, lastName, age, birthDate, onLoadCustomer, handleDownloadFile }: CustomerProps) => {
     const [showConfirm, setShowConfirm] = useState(false);
     const navigate = useNavigate()
 
@@ -29,15 +32,21 @@ const CustomerCard = ({ id, name, lastName, age, birthDate, onLoadCustomer }: Cu
     }
 
     const formatDate = (dateString: string) => {
-        const date = new Date(dateString);
-        return date.toLocaleDateString("es-PE", { day: "2-digit", month: "short", year: "numeric" });
+        const [year, month, day] = dateString.split("T")[0].split("-");
+        const months = ["ene.", "feb.", "mar.", "abr.", "may.", "jun.", "jul.", "ago.", "sep.", "oct.", "nov.", "dic."];
+        return `${day} ${months[parseInt(month, 10) - 1]} ${year}`;
     };
+
+    const getCustomerFile = (id: string) => {
+        return handleDownloadFile(id)
+    }
 
     return (
         <>
             <div className="bg-gray-800 relative flex flex-col px-4 py-2 rounded-md shadow-2xl gap-2 w-[250px] h-[300px]">
                 <button
                     className="absolute top-2 right-2 bg-blue-500 text-white text-sm px-2 py-1 rounded-md hover:bg-blue-400 cursor-pointer"
+                    onClick={() => getCustomerFile(id)}
                 >
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                         fill="currentColor" viewBox="0 0 24 24" >
@@ -45,15 +54,15 @@ const CustomerCard = ({ id, name, lastName, age, birthDate, onLoadCustomer }: Cu
                     </svg>
                 </button>
                 <div className="mt-8">
-                    <p className="font-bold">Name: <span className="font-thin text-blue-400 italic ml-1">{name}</span></p>
-                    <p className="font-bold">Lastname: <span className="font-thin text-blue-400 italic ml-1">{lastName}</span></p>
-                    <p className="font-bold">Age: <span className="font-thin text-blue-400 italic ml-1">{age}</span></p>
-                    <p className="font-bold">BirthDate: <span className="font-thin text-blue-400 italic ml-1">{formatDate(birthDate)}</span></p>
+                    <p className="font-bold">Name: <span className="font-thin text-blue-400 italic ml-1">{name || <Skeleton width={160}></Skeleton>}</span></p>
+                    <p className="font-bold">Lastname: <span className="font-thin text-blue-400 italic ml-1">{lastName || <Skeleton width={130}></Skeleton>}</span></p>
+                    <p className="font-bold">Age: <span className="font-thin text-blue-400 italic ml-1">{age || <Skeleton width={20}></Skeleton>}</span></p>
+                    <p className="font-bold">BirthDate: <span className="font-thin text-blue-400 italic ml-1">{birthDate ? formatDate(birthDate) : <Skeleton width={130}></Skeleton>}</span></p>
                 </div>
 
                 <div className="flex flex-col  gap-2 mt-auto">
                     <button className="bg-yellow-400 px-4 py-2 rounded-md cursor-pointer hover:bg-yellow-200/90" onClick={() => navigate(`/edit-customer/${id}`)}>Edit</button>
-                    <button className="bg-red-400 px-4 py-2 rounded-md cursor-pointer hover:bg-red-200/90" onClick={() => handleDeleteClick(id)}>Delete</button>
+                    <button className="bg-red-400 px-4 py-2 rounded-md cursor-pointer hover:bg-red-200/90" onClick={() => handleDeleteClick()}>Delete</button>
                 </div>
 
             </div>
@@ -65,27 +74,6 @@ const CustomerCard = ({ id, name, lastName, age, birthDate, onLoadCustomer }: Cu
                         handleCancelDelete={handleCancelDelete}
                         message={`¿Estas seguro de querer eliminar al cliente ${name}?`}
                     />
-                    // <div style={{
-                    //     position: "fixed",
-                    //     top: 0, left: 0, right: 0, bottom: 0,
-                    //     backgroundColor: "rgba(0,0,0,0.5)",
-                    //     display: "flex",
-                    //     justifyContent: "center",
-                    //     alignItems: "center",
-                    //     zIndex: 1000
-                    // }}>
-                    //     <div style={{
-                    //         background: "white",
-                    //         padding: "20px",
-                    //         borderRadius: "8px",
-                    //         textAlign: "center",
-                    //         minWidth: "300px"
-                    //     }}>
-                    //         <p>¿Estás seguro de que deseas eliminar este cliente?</p>
-                    //         <button onClick={handleConfirmDelete} style={{ marginRight: "10px" }}>Sí</button>
-                    //         <button onClick={handleCancelDelete}>Cancelar</button>
-                    //     </div>
-                    // </div>
                 )
             }
         </>

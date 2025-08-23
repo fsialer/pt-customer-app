@@ -4,9 +4,7 @@ import { useState } from "react";
 const useCustomerDelete = () => {
     const [deleting, setDeleting] = useState(false);
     const [error, setError] = useState<Error | null>(null);
-    const { keycloak, initialized } = useKeycloak();
-    console.log("Keycloak desde hook:", keycloak);
-    console.log("¿Está inicializado?", initialized);
+    const { keycloak } = useKeycloak();
 
     const deleteCustomer = async (id: string) => {
         try {

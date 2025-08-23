@@ -1,8 +1,8 @@
 import { isRouteErrorResponse, useRouteError } from "react-router";
 
-const Error404=()=>{
-    const error=useRouteError();
-    return (
+const Error404 = () => {
+  const error = useRouteError();
+  return (
     <>
       <h1>404 - Página no encontrada</h1>
       {isRouteErrorResponse(error) ? (

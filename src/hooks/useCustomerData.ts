@@ -1,25 +1,17 @@
 import { useKeycloak } from "@react-keycloak/web";
 import { useEffect, useState } from "react";
-
-interface Customer {
-    id: string;
-    name: string;
-    lastName: string;
-    age: number;
-    birthDate: string;
-}
+import type { ICustomer } from "../models/customer.interface";
 
 interface useCustomerDataProps {
     id: string | null
 }
 
 const useCustomerData = ({ id }: useCustomerDataProps) => {
-    const [data, setData] = useState<Customer>()
+    const [data, setData] = useState<ICustomer>()
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<Error | null>(null);
     const { keycloak, initialized } = useKeycloak();
-    console.log("Keycloak desde hook:", keycloak);
-    console.log("¿Está inicializado?", initialized);
+
 
     useEffect(() => {
         if (!initialized) return; // 👈 esperar a que Keycloak esté listo
@@ -39,14 +31,12 @@ const useCustomerData = ({ id }: useCustomerDataProps) => {
                     'Content-Type': 'application/json',
                 }
             });
-            console.log(response)
             if (response.status != 200) {
                 setError(new Error(response.statusText));
             }
             const data = await response.json();
             setData(data);
         } catch (error) {
-            console.log("error", error)
             if (error instanceof Error) {
                 setError(error);
             } else {

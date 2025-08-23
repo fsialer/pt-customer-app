@@ -2,24 +2,33 @@ import { useKeycloak } from "@react-keycloak/web";
 import { useEffect, useState } from "react";
 import type { ICustomer } from "../models/customer.interface";
 
-const useCustomersData = () => {
-    const [data, setData] = useState<ICustomer[]>([])
+interface paginated {
+    content: ICustomer[];
+    totalElements: number;
+}
+
+type useCustomersDataPaginatedProps = {
+    page: number;
+    size: number;
+}
+
+const useCustomersDataPaginated = () => {
+    const [data, setData] = useState<paginated>({ content: [], totalElements: 0 });
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<Error | null>(null);
     const { keycloak } = useKeycloak();
 
-
     useEffect(() => {
-        fetchCustomers();
+        fetchCustomers({ page: 1, size: 12 });
     }, [])
 
-    const fetchCustomers = async () => {
+    const fetchCustomers = async ({ page, size }: useCustomersDataPaginatedProps) => {
         try {
             if (!keycloak?.token) {
                 throw new Error("No token available");
             }
             await keycloak.updateToken(30);
-            const response = await fetch(`${import.meta.env.VITE_API_GATEWAY}/customers`, {
+            const response = await fetch(`${import.meta.env.VITE_API_GATEWAY}/customers/paginated?size=${size}&page=${page}`, {
                 headers: {
                     'Authorization': `Bearer ${keycloak.token}`,
                     'Content-Type': 'application/json',
@@ -42,9 +51,11 @@ const useCustomersData = () => {
     }
 
     return {
-        customers: data,
+        customers: data.content,
         isLoading,
-        error
+        error,
+        total: data.totalElements,
+        fetchCustomers
     };
 }
-export default useCustomersData;
+export default useCustomersDataPaginated;

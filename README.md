@@ -16,8 +16,9 @@ Aplicación web desarrollada en **React + TypeScript** usando **Vite** como bund
 
 ```
 src/
-  components/         # Componentes reutilizables (NavBar, CustomerList, Metrics, etc.)
+components/         # Componentes reutilizables (NavBar, CustomerList, Metrics, etc.)
   hooks/              # Custom hooks para lógica de negocio (fetch, delete, save, etc.)
+  models/             # Definiciones de interfaces y tipos TypeScript (ICustomer, IMetrics, etc.)
   routes/             # Definición de rutas con protección
   views/              # Vistas principales (Home, Customer, Error404)
   KeycloakProvider.tsx# Proveedor de autenticación Keycloak

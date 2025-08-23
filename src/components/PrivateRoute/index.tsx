@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import type { ReactNode } from "react";
 import { useKeycloak } from '@react-keycloak/web';
 import { Navigate } from 'react-router-dom';
 

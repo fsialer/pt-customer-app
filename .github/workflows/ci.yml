@@ -11,7 +11,6 @@ jobs:
   docker-push:
     name: Build and push image docker
     runs-on: [ubuntu-latest]
-    if: github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/main'
     outputs:
       IMAGE_TAG: ${{ steps.set-tag.outputs.IMAGE_TAG }}
     steps:

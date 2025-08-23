@@ -11,7 +11,7 @@ const NavBar = () => {
 
     return (
         <div className="bg-gray-900 text-white flex justify-between items-center px-4 py-2">
-            <h1 className="text-4xl">Customer store</h1>
+            <h1 className="text-4xl">Customer App</h1>
             <ul className="flex gap-2">
                 <li className=""><Link to='/' className="px-4 py-2 cursor-pointer"
                 >Home</Link></li>

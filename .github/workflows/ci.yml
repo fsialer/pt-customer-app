@@ -63,7 +63,7 @@ jobs:
           docker tag ${{ secrets.DOCKER_USERNAME }}/${{ vars.NAME_IMAGE }}:${{ env.IMAGE_TAG }} \
           ${{ secrets.DOCKER_USERNAME }}/${{ vars.NAME_IMAGE }}:latest
       
-          if [ "${{ github.ref }}" == "refs/heads/main" ]; then
+          if [ "${{ github.ref_name }}" == "main" ] || [ "${{ github.base_ref }}" == "main" ]; then
             docker push ${{ secrets.DOCKER_USERNAME }}/${{ vars.NAME_IMAGE }}:${{ env.IMAGE_TAG }}
             docker push ${{ secrets.DOCKER_USERNAME }}/${{ vars.NAME_IMAGE }}:latest
           else

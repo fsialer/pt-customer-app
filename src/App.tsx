@@ -1,12 +1,13 @@
-//import './App.css'
-import NavBar from './components/NavBar/Index';
 import MyRoutes from './routes';
+import { NotificationProvider } from './utils/NotificationContext';
 
 function App() {
   return (
     <>
-      <MyRoutes>
-      </MyRoutes>
+      <NotificationProvider>
+        <MyRoutes>
+        </MyRoutes>
+      </NotificationProvider>
     </>
 
   );

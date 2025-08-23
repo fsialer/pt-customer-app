@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import { ReactNode } from 'react';
 import { useKeycloak } from '@react-keycloak/web';
 import { Navigate } from 'react-router-dom';
 
@@ -7,7 +7,7 @@ interface PrivateRouteProps {
 }
 
 const PrivateRoute = ({ children }: PrivateRouteProps) => {
-  const { keycloak,initialized } = useKeycloak();
+  const { keycloak, initialized } = useKeycloak();
 
   if (!initialized) return <div>Cargando...</div>;
 

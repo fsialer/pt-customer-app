@@ -1,5 +1,5 @@
 import { useKeycloak } from "@react-keycloak/web";
-import { Link, useNavigate } from "react-router";
+import { Link } from "react-router";
 
 const NavBar = () => {
     const { keycloak } = useKeycloak();

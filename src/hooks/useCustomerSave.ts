@@ -1,22 +1,14 @@
 import { useKeycloak } from "@react-keycloak/web";
-import { useEffect, useState } from "react";
-
-interface Customer {
-    id?: string;
-    name: string;
-    lastName: string;
-    age: number;
-    birthDate: string;
-}
+import { useState } from "react";
+import type { ICustomer } from "../models/customer.interface";
 
 const useCustomerSave = () => {
     const [saving, setSaving] = useState(false);
     const [error, setError] = useState<Error | null>(null);
-    const { keycloak, initialized } = useKeycloak();
-    console.log("Keycloak desde hook:", keycloak);
-    console.log("¿Está inicializado?", initialized);
+    const { keycloak } = useKeycloak();
 
-    const saveCustomer = async (customer: Customer) => {
+
+    const saveCustomer = async (customer: ICustomer) => {
         try {
             setSaving(true);
             setError(null);

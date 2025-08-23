@@ -1,4 +1,4 @@
-import { ReactNode, useEffect, useState } from 'react';
+import { ReactNode } from 'react';
 import keycloak from './keycloak';
 import { ReactKeycloakProvider } from '@react-keycloak/web';
 
@@ -7,13 +7,11 @@ interface Props {
 }
 
 const KeycloakAuthProvider = ({ children }: Props) => {
-  console.log(keycloak)
   return (
     <ReactKeycloakProvider
       authClient={keycloak}
       initOptions={{ onLoad: 'login-required', checkLoginIframe: false, pkceMethod: 'S256' }} // 👈 fuerza el login
       isLoadingCheck={(keycloak) => !keycloak.didInitialize}
-      
     >
       {children}
     </ReactKeycloakProvider>

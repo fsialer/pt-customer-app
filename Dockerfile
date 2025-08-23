@@ -25,6 +25,12 @@ COPY --from=builder /app/dist /usr/share/nginx/html
 # Copia una configuración personalizada de nginx si la tienes
 # COPY nginx.conf /etc/nginx/nginx.conf
 
+# ✅ Agregar usuario no-root con UID ≥ 10000
+RUN adduser -D -u 10001 appuser
+
+# ✅ Cambiar al usuario
+USER appuser
+
 # Expone el puerto 80
 EXPOSE 80
 

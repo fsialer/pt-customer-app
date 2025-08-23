@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import type { ReactNode } from "react";
 import keycloak from './keycloak';
 import { ReactKeycloakProvider } from '@react-keycloak/web';
 

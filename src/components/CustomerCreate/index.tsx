@@ -17,9 +17,9 @@ const CustomerCreate = () => {
 
     const { id: idParam } = useParams<RouteParams>(); // <-- obtiene el id si existe
     const id = idParam ?? null;
-    const { customer, isLoading, error } = useCustomerData({ id });
+    const { customer, error } = useCustomerData({ id });
     const { register, handleSubmit, reset, formState: { errors, isValid, isSubmitting } } = useForm({ mode: "onChange" })
-    const { saveCustomer, saving, errorSave } = useCustomerSave();
+    const { saveCustomer, errorSave } = useCustomerSave();
     const { showNotification } = useNotification();
 
 

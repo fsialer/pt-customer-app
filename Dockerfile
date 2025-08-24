@@ -22,14 +22,15 @@ RUN rm -rf /usr/share/nginx/html/*
 # Copia el build generado desde la etapa anterior
 COPY --from=builder /app/dist /usr/share/nginx/html
 
-# Copia una configuración personalizada de nginx si la tienes
-# COPY nginx.conf /etc/nginx/nginx.conf
+
+# 🔁 Copia la configuración que usa puerto 8080
+COPY default.conf /etc/nginx/conf.d/default.conf
 
 # ✅ Agregar usuario no-root con UID ≥ 10000
 RUN adduser -D -u 10001 appuser
 
 # Dar permisos a appuser sobre los directorios necesarios
-RUN chown -R appuser:appuser /var/cache/nginx /var/run /etc/nginx /usr/share/nginx/html
+RUN chown -R appuser:appuser /var/cache/nginx /var/run /etc/nginx /usr/share/nginx/html /etc/nginx/conf.d
 
 # ✅ Cambiar al usuario
 USER appuser

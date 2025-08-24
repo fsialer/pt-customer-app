@@ -1,6 +1,7 @@
 import { useKeycloak } from "@react-keycloak/web";
 import { useEffect, useState } from "react";
 import type { ICustomer } from "../models/customer.interface";
+import getEnvVar from "../utils/GetEnvironment";
 
 const useCustomersData = () => {
     const [data, setData] = useState<ICustomer[]>([])
@@ -19,7 +20,7 @@ const useCustomersData = () => {
                 throw new Error("No token available");
             }
             await keycloak.updateToken(30);
-            const response = await fetch(`${import.meta.env.VITE_API_GATEWAY}/customers`, {
+            const response = await fetch(`${getEnvVar("VITE_API_GATEWAY")}/customers`, {
                 headers: {
                     'Authorization': `Bearer ${keycloak.token}`,
                     'Content-Type': 'application/json',

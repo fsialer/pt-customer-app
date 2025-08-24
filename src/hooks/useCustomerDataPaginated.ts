@@ -1,6 +1,7 @@
 import { useKeycloak } from "@react-keycloak/web";
 import { useEffect, useState } from "react";
 import type { ICustomer } from "../models/customer.interface";
+import getEnvVar from "../utils/GetEnvironment";
 
 interface paginated {
     content: ICustomer[];
@@ -28,7 +29,7 @@ const useCustomersDataPaginated = () => {
                 throw new Error("No token available");
             }
             await keycloak.updateToken(30);
-            const response = await fetch(`${import.meta.env.VITE_API_GATEWAY}/customers/paginated?size=${size}&page=${page}`, {
+            const response = await fetch(`${getEnvVar("VITE_API_GATEWAY")}/customers/paginated?size=${size}&page=${page}`, {
                 headers: {
                     'Authorization': `Bearer ${keycloak.token}`,
                     'Content-Type': 'application/json',

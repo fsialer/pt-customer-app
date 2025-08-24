@@ -7,8 +7,11 @@ WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm ci --prefer-offline
 
+
+
 # Copia el resto del código fuente
 COPY . .
+
 
 # Construye la aplicación para producción
 RUN npm run build
@@ -26,7 +29,8 @@ COPY --from=builder /app/dist /usr/share/nginx/html
 # 🔁 Copia la configuración que usa puerto 8080
 COPY default.conf /etc/nginx/conf.d/default.conf
 COPY nginx.conf /etc/nginx/nginx.conf
-
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
 # ✅ Agregar usuario no-root con UID ≥ 10000
 RUN adduser -D -u 10001 appuser
 
@@ -51,6 +55,6 @@ LABEL maintainer="Fernando Sialer" \
 
 # Expone el puerto 80
 EXPOSE 8888
-
+ENTRYPOINT ["/entrypoint.sh"]
 # Comando por defecto
 CMD ["nginx", "-g", "daemon off;"]

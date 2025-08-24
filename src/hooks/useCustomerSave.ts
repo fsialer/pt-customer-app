@@ -1,6 +1,7 @@
 import { useKeycloak } from "@react-keycloak/web";
 import { useState } from "react";
 import type { ICustomer } from "../models/customer.interface";
+import getEnvVar from "../utils/GetEnvironment";
 
 const useCustomerSave = () => {
     const [saving, setSaving] = useState(false);
@@ -16,7 +17,7 @@ const useCustomerSave = () => {
                 throw new Error("No token available");
             }
             await keycloak.updateToken(30);
-            const uri = customer.id ? `${import.meta.env.VITE_API_GATEWAY}/customers/${customer.id}` : `${import.meta.env.VITE_API_GATEWAY}/customers`
+            const uri = customer.id ? `${getEnvVar("VITE_API_GATEWAY")}/customers/${customer.id}` : `${getEnvVar("VITE_API_GATEWAY")}/customers`
             const response = await fetch(uri, {
                 method: customer.id ? "PUT" : "POST", // 👈 POST para crear, PUT para actualizar
                 headers: {

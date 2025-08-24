@@ -4,7 +4,7 @@ FROM node:20-alpine AS builder
 WORKDIR /app
 
 # Copia solo los archivos necesarios para instalar dependencias primero (mejor cache)
-COPY package.json package-lock.json* ./
+COPY package.json package-lock.json ./
 RUN npm ci --prefer-offline
 
 # Copia el resto del código fuente

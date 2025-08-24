@@ -28,6 +28,9 @@ COPY --from=builder /app/dist /usr/share/nginx/html
 # ✅ Agregar usuario no-root con UID ≥ 10000
 RUN adduser -D -u 10001 appuser
 
+# Dar permisos a appuser sobre los directorios necesarios
+RUN chown -R appuser:appuser /var/cache/nginx /var/run /etc/nginx /usr/share/nginx/html
+
 # ✅ Cambiar al usuario
 USER appuser
 

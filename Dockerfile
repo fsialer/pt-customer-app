@@ -25,6 +25,7 @@ COPY --from=builder /app/dist /usr/share/nginx/html
 
 # 🔁 Copia la configuración que usa puerto 8080
 COPY default.conf /etc/nginx/conf.d/default.conf
+COPY nginx.conf /etc/nginx/nginx.conf
 
 # ✅ Agregar usuario no-root con UID ≥ 10000
 RUN adduser -D -u 10001 appuser
@@ -52,4 +53,4 @@ LABEL maintainer="Fernando Sialer" \
 EXPOSE 8888
 
 # Comando por defecto
-CMD ["nginx", "-g", "daemon off; pid /tmp/nginx.pid;"]
+CMD ["nginx", "-g", "daemon off;"]

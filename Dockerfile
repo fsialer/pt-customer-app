@@ -42,7 +42,7 @@ LABEL maintainer="Fernando Sialer" \
       org.opencontainers.image.source="https://github.com/fsialer/pt-customer-app" 
 
 # Expone el puerto 80
-EXPOSE 80
+EXPOSE 8888
 
 # Comando por defecto
 CMD ["nginx", "-g", "daemon off;"]

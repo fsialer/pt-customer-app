@@ -30,7 +30,13 @@ COPY default.conf /etc/nginx/conf.d/default.conf
 RUN adduser -D -u 10001 appuser
 
 # Dar permisos a appuser sobre los directorios necesarios
-RUN chown -R appuser:appuser /var/cache/nginx /var/run /etc/nginx /usr/share/nginx/html /etc/nginx/conf.d
+RUN chown -R appuser:appuser \
+    /var/cache/nginx \
+    /var/run \
+    /etc/nginx \
+    /usr/share/nginx/html \
+    /etc/nginx/conf.d \
+    /tmp
 
 # ✅ Cambiar al usuario
 USER appuser
@@ -46,4 +52,4 @@ LABEL maintainer="Fernando Sialer" \
 EXPOSE 8888
 
 # Comando por defecto
-CMD ["nginx", "-g", "daemon off;"]
+CMD ["nginx", "-g", "daemon off; pid /tmp/nginx.pid;"]

@@ -1,5 +1,6 @@
 import { useKeycloak } from "@react-keycloak/web";
 import { useState } from "react";
+import getEnvVar from "../utils/GetEnvironment";
 
 type useConsumerDownloadType = {
     id: string
@@ -22,7 +23,7 @@ const useConsumerDownload = () => {
 
             await keycloak.updateToken(30);
 
-            const response = await fetch(`${import.meta.env.VITE_API_GATEWAY}/consumer/download?id=${id}`, {
+            const response = await fetch(`${getEnvVar("VITE_API_GATEWAY")}/consumer/download?id=${id}`, {
                 headers: {
                     Authorization: `Bearer ${keycloak.token}`
                 }

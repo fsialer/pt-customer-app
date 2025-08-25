@@ -5,7 +5,7 @@ const Home = () => {
     return (
         <div>
             <NavBar/>
-            <Metrics/>
+            <Metrics/>        
         </div>
     )
 }

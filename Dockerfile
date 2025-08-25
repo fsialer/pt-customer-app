@@ -4,11 +4,14 @@ FROM node:20-alpine AS builder
 WORKDIR /app
 
 # Copia solo los archivos necesarios para instalar dependencias primero (mejor cache)
-COPY package.json package-lock.json* ./
+COPY package.json package-lock.json ./
 RUN npm ci --prefer-offline
+
+
 
 # Copia el resto del código fuente
 COPY . .
+
 
 # Construye la aplicación para producción
 RUN npm run build
@@ -22,11 +25,23 @@ RUN rm -rf /usr/share/nginx/html/*
 # Copia el build generado desde la etapa anterior
 COPY --from=builder /app/dist /usr/share/nginx/html
 
-# Copia una configuración personalizada de nginx si la tienes
-# COPY nginx.conf /etc/nginx/nginx.conf
 
+# 🔁 Copia la configuración que usa puerto 8080
+COPY default.conf /etc/nginx/conf.d/default.conf
+COPY nginx.conf /etc/nginx/nginx.conf
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
 # ✅ Agregar usuario no-root con UID ≥ 10000
 RUN adduser -D -u 10001 appuser
+
+# Dar permisos a appuser sobre los directorios necesarios
+RUN chown -R appuser:appuser \
+    /var/cache/nginx \
+    /var/run \
+    /etc/nginx \
+    /usr/share/nginx/html \
+    /etc/nginx/conf.d \
+    /tmp
 
 # ✅ Cambiar al usuario
 USER appuser
@@ -39,7 +54,7 @@ LABEL maintainer="Fernando Sialer" \
       org.opencontainers.image.source="https://github.com/fsialer/pt-customer-app" 
 
 # Expone el puerto 80
-EXPOSE 80
-
+EXPOSE 8888
+ENTRYPOINT ["/entrypoint.sh"]
 # Comando por defecto
 CMD ["nginx", "-g", "daemon off;"]

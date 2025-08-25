@@ -1,6 +1,7 @@
 import { useKeycloak } from "@react-keycloak/web";
 import { useState } from "react";
 import type { IMetrics } from "../models/metric.interface";
+import getEnvVar from "../utils/GetEnvironment";
 
 const useMetricsData = () => {
     const [data, setData] = useState<IMetrics>()
@@ -14,7 +15,7 @@ const useMetricsData = () => {
                 throw new Error("No token available");
             }
             await keycloak.updateToken(30);
-            const response = await fetch(`${import.meta.env.VITE_API_GATEWAY}/customers/metrics`, {
+            const response = await fetch(`${getEnvVar("VITE_API_GATEWAY")}/customers/metrics`, {
                 headers: {
                     'Authorization': `Bearer ${keycloak.token}`,
                     'Content-Type': 'application/json',

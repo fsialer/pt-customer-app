@@ -1,10 +1,15 @@
 import Keycloak from 'keycloak-js';
+import getEnvVar from './utils/GetEnvironment';
+
+
 
 const keycloak = new Keycloak({
-  url: import.meta.env.VITE_KEYCLOAK_URL, // 👈 URL de tu Keycloak
-  realm: import.meta.env.VITE_KEYCLOAK_REALM,                 // 👈 Nombre del realm
-  clientId: import.meta.env.VITE_KEYCLOAK_CLIENT_ID,     // 👈 ID del cliente configurado en Keycloak
+  url: getEnvVar("VITE_KEYCLOAK_URL"),
+  realm: getEnvVar("VITE_KEYCLOAK_REALM"),              // 👈 Nombre del realm
+  clientId: getEnvVar("VITE_KEYCLOAK_CLIENT_ID")      // 👈 ID del cliente configurado en Keycloak
 });
+
+
 
 if ((window as any)._kc) {
   console.warn("Reutilizando instancia Keycloak");
